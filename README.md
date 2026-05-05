@@ -27,6 +27,36 @@ The shared domain keeps the setup lightweight while still letting us evaluate:
 | `candidate` | Candidate-facing challenge briefs |
 | `internal` | Internal review notes and scoring guidance |
 
+## Requirements
+
+### Local setup
+
+For a normal local setup outside a devcontainer, the candidate should have:
+
+- **Git**
+- **.NET 10 SDK**
+- **Node 24** (recommended LTS version for this repo)
+- **npm** (bundled with Node)
+
+Optional:
+
+- **Docker** if they want to run the backend via the provided Dockerfile instead of `dotnet run`
+
+### Local devcontainer setup
+
+For using the repository in a local VS Code devcontainer, the candidate should have:
+
+- **Git**
+- **Docker Desktop** or another local Docker engine compatible with Dev Containers
+- **Visual Studio Code**
+- the **Dev Containers** VS Code extension
+
+The devcontainer already provides:
+
+- **.NET 10 SDK**
+- **Node 24**
+- forwarded ports for the API and Angular app
+
 ## Setup
 
 ### API
