@@ -1,0 +1,75 @@
+<section class="page-header">
+  <div>
+    <h2>Create incident</h2>
+    <p>Small full-stack flow for the entry-level challenge track.</p>
+  </div>
+</section>
+
+@if (loadingAssets()) {
+  <p class="state">Loading assets...</p>
+} @else {
+  <form class="form-card" [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      <span>Asset</span>
+      <select formControlName="assetCode">
+        @for (asset of assets(); track asset.assetCode) {
+          <option [value]="asset.assetCode">{{ asset.assetCode }} — {{ asset.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      <span>Title</span>
+      <input type="text" formControlName="title" />
+    </label>
+
+    <label>
+      <span>Severity</span>
+      <select formControlName="severity">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+    </label>
+
+    <label class="full-width">
+      <span>Description</span>
+      <textarea rows="4" formControlName="description"></textarea>
+    </label>
+
+    <label>
+      <span>Starts at</span>
+      <input type="datetime-local" formControlName="startsAt" />
+    </label>
+
+    <label>
+      <span>Ends at</span>
+      <input type="datetime-local" formControlName="endsAt" />
+    </label>
+
+    <label>
+      <span>Planned end</span>
+      <input type="datetime-local" formControlName="plannedEndAt" />
+    </label>
+
+    @if (form.hasError('endsBeforeStart')) {
+      <p class="state state-error full-width">
+        End date must not be earlier than the start date.
+      </p>
+    }
+
+    @if (submitError()) {
+      <p class="state state-error full-width">{{ submitError() }}</p>
+    }
+
+    @if (submitSuccess()) {
+      <p class="state state-success full-width">{{ submitSuccess() }}</p>
+    }
+
+    <div class="actions full-width">
+      <button type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Saving…' : 'Create incident' }}
+      </button>
+    </div>
+  </form>
+}

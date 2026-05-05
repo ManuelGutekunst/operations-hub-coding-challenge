@@ -1,0 +1,24 @@
+<section class="page-header">
+  <div>
+    <h2>Operational overview</h2>
+    <p>Small dashboard flow for the Angular challenge track.</p>
+  </div>
+</section>
+
+@if (store.status() === 'loading') {
+  <p class="state">Loading overview metrics...</p>
+}
+
+@if (store.status() === 'error') {
+  <p class="state state-error">{{ store.errorMessage() }}</p>
+}
+
+<section class="metrics">
+  @for (metric of store.metrics(); track metric.label) {
+    <article class="metric-card">
+      <p class="metric-label">{{ metric.label }}</p>
+      <strong>{{ metric.value }}</strong>
+      <span>Target: {{ metric.maxValue }}</span>
+    </article>
+  }
+</section>

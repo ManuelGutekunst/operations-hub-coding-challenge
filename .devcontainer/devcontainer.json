@@ -1,0 +1,31 @@
+{
+  "name": "operations-hub-coding-challenge",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:2-10.0-noble",
+  "features": {
+    "ghcr.io/devcontainers/features/node:2.0.0": {
+      "version": "24"
+    }
+  },
+  "forwardPorts": [4200, 5146],
+  "portsAttributes": {
+    "4200": {
+      "label": "Angular app",
+      "onAutoForward": "openPreview"
+    },
+    "5146": {
+      "label": ".NET API",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "dotnet restore OperationsHub.Challenge.slnx && cd web && npm ci",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "Angular.ng-template",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}
