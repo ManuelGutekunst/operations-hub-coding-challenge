@@ -1,4 +1,3 @@
-using OperationsHub.Api.Features.Assets;
 using OperationsHub.Api.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +5,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSingleton<InMemoryOperationsDataStore>();
-builder.Services.AddSingleton<AssetBatchStatusService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("web", policy =>

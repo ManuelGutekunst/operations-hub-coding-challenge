@@ -1,6 +1,5 @@
 using OperationsHub.Api.Domain.Assets;
 using OperationsHub.Api.Domain.Incidents;
-using OperationsHub.Api.Domain.Overview;
 
 namespace OperationsHub.Api.Infrastructure;
 
@@ -25,12 +24,5 @@ public sealed class InMemoryOperationsDataStore
             StartsAt = DateTimeOffset.UtcNow.AddDays(-1),
             PlannedEndAt = DateTimeOffset.UtcNow.AddDays(1)
         }
-    ];
-
-    public IReadOnlyCollection<OverviewMetric> GetOverviewMetrics() =>
-    [
-        new("Running assets", Assets.Count(asset => asset.Status == "Running"), Assets.Count),
-        new("Assets needing attention", Assets.Count(asset => asset.Status == "Attention"), Assets.Count),
-        new("Incidents created this week", Incidents.Count(incident => incident.CreatedAt >= DateTimeOffset.UtcNow.AddDays(-7)), 10)
     ];
 }

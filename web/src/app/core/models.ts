@@ -1,9 +1,3 @@
-export interface OverviewMetric {
-  label: string;
-  value: number;
-  maxValue: number;
-}
-
 export interface AssetSummary {
   assetCode: string;
   name: string;

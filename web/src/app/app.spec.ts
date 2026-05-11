@@ -16,7 +16,7 @@ describe('App', () => {
 
     const compiled = fixture.nativeElement as HTMLElement;
 
-    expect(compiled.querySelector('h1')?.textContent).toContain('Coding Challenge');
-    expect(compiled.textContent).toContain('Dashboard');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Entry-Level Full-Stack Challenge');
+    expect(compiled.textContent).toContain('Create incident');
   });
 });

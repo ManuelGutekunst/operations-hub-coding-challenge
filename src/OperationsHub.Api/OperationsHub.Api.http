@@ -1,6 +1,26 @@
 @OperationsHub.Api_HostAddress = http://localhost:5146
 
-GET {{OperationsHub.Api_HostAddress}}/weatherforecast/
+GET {{OperationsHub.Api_HostAddress}}/api/assets
 Accept: application/json
+
+###
+
+GET {{OperationsHub.Api_HostAddress}}/api/incidents
+Accept: application/json
+
+###
+
+POST {{OperationsHub.Api_HostAddress}}/api/incidents
+Content-Type: application/json
+
+{
+  "assetCode": "WT-1001",
+  "title": "Transformer inspection",
+  "description": "Routine inspection raised a follow-up action.",
+  "severity": "Medium",
+  "startsAt": "2026-05-11T08:00:00Z",
+  "endsAt": null,
+  "plannedEndAt": "2026-05-11T12:00:00Z"
+}
 
 ###
