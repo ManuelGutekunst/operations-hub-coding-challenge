@@ -16,13 +16,13 @@ The challenge centers on the incident creation flow in the Angular app and ASP.N
 
 ## Structure
 
-| Path | Purpose |
-| --- | --- |
-| `src/OperationsHub.Api` | Small ASP.NET Core API with in-memory data for assets and incidents |
-| `src/OperationsHub.Api.Tests` | Backend unit tests |
-| `web` | Angular app for the incident creation flow |
-| `candidate` | Candidate-facing challenge brief |
-| `internal` | Internal review notes and scoring guidance |
+| Path                          | Purpose                                                             |
+| ----------------------------- | ------------------------------------------------------------------- |
+| `src/OperationsHub.Api`       | Small ASP.NET Core API with in-memory data for assets and incidents |
+| `src/OperationsHub.Api.Tests` | Backend unit tests                                                  |
+| `web`                         | Angular app for the incident creation flow                          |
+| `candidate`                   | Candidate-facing challenge brief                                    |
+| `internal`                    | Internal review notes and scoring guidance                          |
 
 ## Requirements
 
@@ -118,6 +118,6 @@ When using this repo for a real assessment:
 ## Notes
 
 - The codebase is intentionally small.
-- The task is intentionally scoped to be solvable in roughly **90 minutes**.
+- The task is intentionally scoped to be solvable in roughly **60 minutes**.
 - Tests are nice to have, not mandatory; strong candidates may add a focused test or leave a short note describing how they would use or extend the existing harness.
 - The goal is not production completeness; it is to surface engineering judgement.
