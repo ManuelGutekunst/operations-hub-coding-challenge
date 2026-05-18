@@ -4,5 +4,4 @@ web/node_modules/
 web/.angular/
 web/dist/
 .devcontainer/devcontainer-lock.json
-internal/
 .DS_Store
