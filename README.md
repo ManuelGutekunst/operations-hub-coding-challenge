@@ -1,14 +1,16 @@
-# Operations Hub Entry-Level Full-Stack Challenge
+# Operations Hub Full-Stack Challenge
 
-This repository now targets a single **entry-level full-stack (.NET + Angular)** coding challenge. It stays intentionally small so candidates can understand the codebase quickly and make one focused change across the UI and API.
+This repository now targets a single **full-stack (.NET + Angular)** coding challenge. It stays intentionally small so candidates can understand the codebase quickly and make one focused change across the UI and API.
 
 ## What this repo is for
 
 The challenge centers on the incident creation flow in the Angular app and ASP.NET Core API. It is designed to evaluate:
 
 - understanding an existing codebase
-- making a small change across frontend and backend
-- keeping validation and user feedback consistent
+- handling dependent async UI state in the frontend
+- following an existing API/data flow across frontend and backend
+- keeping validation rules consistent across frontend and backend
+- keeping user feedback consistent
 - debugging, testability, and code clarity
 
 ## Structure
@@ -115,5 +117,5 @@ When using this repo for a real assessment:
 ## Notes
 
 - The codebase is intentionally small.
-- The task is intentionally scoped to be solvable in roughly **one hour**.
+- The task is intentionally scoped to be solvable in roughly **90 minutes**.
 - The goal is not production completeness; it is to surface engineering judgement.

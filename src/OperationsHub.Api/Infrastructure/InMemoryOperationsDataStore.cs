@@ -25,4 +25,33 @@ public sealed class InMemoryOperationsDataStore
             PlannedEndAt = DateTimeOffset.UtcNow.AddDays(1)
         }
     ];
+
+    public Dictionary<string, IReadOnlyList<AssetComponentOption>> AssetComponents { get; } =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            ["WT-1001"] =
+            [
+                new("rotor", "Rotor"),
+                new("yaw-drive", "Yaw drive"),
+                new("converter", "Converter")
+            ],
+            ["WT-1002"] =
+            [
+                new("gearbox", "Gearbox"),
+                new("generator", "Generator"),
+                new("hydraulics", "Hydraulics")
+            ],
+            ["SB-2001"] =
+            [
+                new("transformer", "Transformer"),
+                new("protection-relay", "Protection relay"),
+                new("switchgear", "Switchgear")
+            ],
+            ["PK-3001"] =
+            [
+                new("lighting", "Lighting"),
+                new("cctv", "CCTV"),
+                new("access-gate", "Access gate")
+            ]
+        };
 }
