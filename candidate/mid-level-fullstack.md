@@ -80,4 +80,4 @@ If you do not add tests, leave short notes describing:
 
 ## Timebox
 
-Aim for about **90 minutes**. If you do not finish everything, leave short notes about tradeoffs or next steps.
+Aim for about **60 minutes**. If you do not finish everything, leave short notes about tradeoffs or next steps.
