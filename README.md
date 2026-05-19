@@ -22,7 +22,6 @@ The challenge centers on the incident creation flow in the Angular app and ASP.N
 | `src/OperationsHub.Api.Tests` | Backend unit tests                                                  |
 | `web`                         | Angular app for the incident creation flow                          |
 | `candidate`                   | Candidate-facing challenge brief                                    |
-| `internal`                    | Internal review notes and scoring guidance                          |
 
 ## Requirements
 
