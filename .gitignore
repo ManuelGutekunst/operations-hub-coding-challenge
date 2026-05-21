@@ -5,3 +5,4 @@ web/.angular/
 web/dist/
 .devcontainer/devcontainer-lock.json
 .DS_Store
+.idea/
