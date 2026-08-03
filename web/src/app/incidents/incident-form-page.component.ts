@@ -4,10 +4,11 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validatio
 import { firstValueFrom } from 'rxjs';
 import { AssetsApiService } from '../core/assets-api.service';
 import { IncidentsApiService } from '../core/incidents-api.service';
-import { AssetSummary, CreateIncidentRequest } from '../core/models';
+import { AssetComponentOption, AssetSummary, CreateIncidentRequest } from '../core/models';
 
 type IncidentFormValue = {
   assetCode: FormControl<string>;
+  componentValue: FormControl<string>;
   title: FormControl<string>;
   severity: FormControl<string>;
   description: FormControl<string>;
@@ -26,7 +27,10 @@ export class IncidentFormPageComponent implements OnInit {
   private readonly incidentsApi = inject(IncidentsApiService);
 
   readonly assets = signal<AssetSummary[]>([]);
+  readonly componentOptions = signal<AssetComponentOption[]>([]);
   readonly loadingAssets = signal(true);
+  readonly loadingComponents = signal(false);
+  readonly componentsError = signal<string | null>(null);
   readonly submitError = signal<string | null>(null);
   readonly submitSuccess = signal<string | null>(null);
   readonly isSubmitting = signal(false);
@@ -34,6 +38,7 @@ export class IncidentFormPageComponent implements OnInit {
   readonly form = new FormGroup<IncidentFormValue>(
     {
       assetCode: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+      componentValue: new FormControl('', { nonNullable: true }),
       title: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       severity: new FormControl('Medium', { nonNullable: true, validators: [Validators.required] }),
       description: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -51,6 +56,11 @@ export class IncidentFormPageComponent implements OnInit {
 
       if (assets.length > 0) {
         this.form.controls.assetCode.setValue(assets[0].assetCode);
+        await this.loadAssetComponents(assets[0].assetCode);
+
+        this.form.controls.assetCode.valueChanges.subscribe(assetCode => {
+          void this.loadAssetComponents(assetCode);
+        });
       }
     } finally {
       this.loadingAssets.set(false);
@@ -82,6 +92,26 @@ export class IncidentFormPageComponent implements OnInit {
     }
   }
 
+  private async loadAssetComponents(assetCode: string): Promise<void> {
+    this.loadingComponents.set(true);
+    this.componentsError.set(null);
+
+    try {
+      const components = await firstValueFrom(this.assetsApi.getAssetComponents$(assetCode));
+      this.componentOptions.set(components);
+
+      if (!components.some(component => component.value === this.form.controls.componentValue.value)) {
+        this.form.controls.componentValue.setValue('');
+      }
+    } catch {
+      this.componentOptions.set([]);
+      this.form.controls.componentValue.setValue('');
+      this.componentsError.set('Could not load component options.');
+    } finally {
+      this.loadingComponents.set(false);
+    }
+  }
+
   private buildRequest(): CreateIncidentRequest {
     const raw = this.form.getRawValue();
 
@@ -105,13 +135,17 @@ export class IncidentFormPageComponent implements OnInit {
   private validateDateRange(control: AbstractControl): ValidationErrors | null {
     const startsAt = control.get('startsAt')?.value;
     const endsAt = control.get('endsAt')?.value;
+    const plannedEndAt = control.get('plannedEndAt')?.value;
+    const errors: ValidationErrors = {};
 
-    if (!startsAt || !endsAt) {
-      return null;
+    if (startsAt && endsAt && new Date(endsAt).getTime() < new Date(startsAt).getTime()) {
+      errors['endsBeforeStart'] = true;
     }
 
-    return new Date(endsAt).getTime() < new Date(startsAt).getTime()
-      ? { endsBeforeStart: true }
-      : null;
+    if (startsAt && plannedEndAt && new Date(plannedEndAt).getTime() < new Date(startsAt).getTime()) {
+      errors['plannedEndBeforeStart'] = true;
+    }
+
+    return Object.keys(errors).length > 0 ? errors : null;
   }
 }

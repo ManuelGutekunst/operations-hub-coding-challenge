@@ -4,65 +4,76 @@
 
 The application already supports creating incidents in the Angular UI and the .NET API.
 
-The incident form already loads assets, and the backend already contains seeded asset-specific subsystem/component data.
+A first pass of the asset-specific component flow is already scaffolded in both layers. It works partially, but the implementation is intentionally basic and contains at least one correctness issue.
 
-The end-to-end flow for exposing and consuming those component options is not complete yet.
+The date validation is also only partially implemented.
 
 ## Task
 
-Complete both parts of the incident form challenge.
+Improve the current incident form implementation.
 
-### 1. Implement asset-specific component options end to end
+### 1. Review and improve the asset/component flow
 
-Add the missing asset-component flow across the API and Angular app.
+The form already includes an asset-specific component dropdown backed by the API.
+
+Improve that flow so it behaves correctly and predictably.
 
 That should include:
 
-- exposing asset-specific subsystem/component options from the API in a way that is consistent with the existing codebase
-- adding a dependent dropdown under the existing asset dropdown in the Angular form
-- loading options for the currently selected asset on initial page load and whenever the asset changes
-- keeping the selected component in sync with the latest asset-specific options
-- avoiding stale UI state if the selected asset changes while an earlier request is still in flight
+- reviewing the current implementation and identifying the critical issue in the asset/component interaction
+- ensuring the component options stay in sync with the currently selected asset
+- ensuring the selected component is still valid after the asset changes
+- improving the loading, empty, and error handling only as much as needed to make the flow understandable
 
-### 2. Implement end-to-end validation for `plannedEndAt`
+### 2. Complete the end-to-end validation for `plannedEndAt`
 
-The rule should be:
+The full business rule is:
 
 - `plannedEndAt` must not be earlier than `startsAt`
 - if `endsAt` is set, `plannedEndAt` must not be later than `endsAt`
 
-Apply that validation in:
+Review the existing implementation and complete that validation in:
 
 1. the Angular form, with visible feedback
 2. the API, so invalid requests are still rejected server-side
+
+### 3. Make one or two focused improvements
+
+After fixing the critical path, make one or two pragmatic improvements you think are worth doing inside the timebox.
+
+Examples could include:
+
+- tightening duplicated or unclear logic
+- improving naming or state handling
+- adding one focused test
+- leaving short notes about what you would improve next
 
 ## Requirements
 
 Update the API and Angular form so that:
 
-1. the component options endpoint is implemented and wired through the frontend
-2. a second dropdown appears under the existing asset dropdown
-3. the dropdown reloads on page load and whenever the asset changes
-4. it resets or clears the child selection if the previous value is no longer valid
-5. it shows understandable loading, empty, and error states
-6. `plannedEndAt` validation is enforced in both frontend and backend
-7. the existing incident creation flow keeps working
+1. the component options flow keeps working on initial page load and after asset changes
+2. stale or invalid component state is not left behind
+3. the UI shows understandable loading, empty, and error states
+4. `plannedEndAt` validation is enforced in both frontend and backend
+5. the existing incident creation flow keeps working
 
 ## Scope
 
-- Do **not** add the new component value to `POST /api/incidents`.
+- Do **not** add the component value to `POST /api/incidents`.
 - Do **not** add persistence, authentication, or unrelated UI changes.
-- Keep the implementation small and consistent with the existing Angular patterns in the repo.
-- Reuse the existing backend patterns instead of introducing a new architecture.
+- Do **not** rewrite the architecture.
+- Keep the existing broad patterns in place unless a small improvement is clearly justified.
+- Favor focused fixes and targeted improvements over big refactors.
 
 ## What we care about
 
 - understanding an existing codebase
-- tracing seeded data through the backend and into the UI
+- diagnosing an intentionally weak implementation
+- fixing the critical path before polishing secondary concerns
 - managing dependent async UI state
-- avoiding stale async results and invalid child selections
 - consistent validation across frontend and backend
-- making a focused change without unnecessary rewrites
+- making focused changes without unnecessary rewrites
 - clear user feedback
 - pragmatic test thinking and engineering judgment
 
@@ -70,9 +81,9 @@ Update the API and Angular form so that:
 
 Tests are a **nice to have**, not a hard requirement for finishing the challenge.
 
-If you have time, add one or two focused tests in the existing backend or Angular test setup.
+If you have time, add **one focused test** in the existing backend or Angular test setup.
 
-If you do not add tests, leave short notes describing:
+If you do not add a test, leave short notes describing:
 
 - what you would test first
 - which existing test harness you would extend

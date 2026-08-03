@@ -19,6 +19,24 @@
     </label>
 
     <label>
+      <span>Component</span>
+      <select formControlName="componentValue" [disabled]="loadingComponents() || componentOptions().length === 0">
+        <option value="">Select a component</option>
+        @for (component of componentOptions(); track component.value) {
+          <option [value]="component.value">{{ component.label }}</option>
+        }
+      </select>
+    </label>
+
+    @if (loadingComponents()) {
+      <p class="state full-width">Loading component options...</p>
+    } @else if (componentsError()) {
+      <p class="state state-error full-width">{{ componentsError() }}</p>
+    } @else if (componentOptions().length === 0) {
+      <p class="state full-width">No component options are available for this asset.</p>
+    }
+
+    <label>
       <span>Title</span>
       <input type="text" formControlName="title" />
     </label>
@@ -55,6 +73,12 @@
     @if (form.hasError('endsBeforeStart')) {
       <p class="state state-error full-width">
         End date must not be earlier than the start date.
+      </p>
+    }
+
+    @if (form.hasError('plannedEndBeforeStart')) {
+      <p class="state state-error full-width">
+        Planned end must not be earlier than the start date.
       </p>
     }
 

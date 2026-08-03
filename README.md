@@ -1,13 +1,16 @@
 # Operations Hub Full-Stack Challenge
 
-This repository now targets a single **mid-level full-stack (.NET + Angular)** coding challenge. It stays intentionally small so candidates can understand the codebase quickly and make one focused change across the UI and API.
+This repository targets a single **mid-level full-stack (.NET + Angular)** coding challenge. It stays intentionally small so candidates can understand the codebase quickly, then spend most of their time improving an existing implementation instead of building a feature from scratch.
 
 ## What this repo is for
 
-The challenge centers on the incident creation flow in the Angular app and ASP.NET Core API. It is designed to evaluate:
+The challenge centers on the incident creation flow in the Angular app and ASP.NET Core API. The scaffold is intentionally functional but basic. It includes a small correctness bug and a few weak spots so candidates have to analyze the current implementation, improve the critical path, and decide what is worth fixing inside a timebox.
+
+It is designed to evaluate:
 
 - understanding an existing codebase
-- tracing and extending an API/data contract across frontend and backend
+- diagnosing and improving an intentionally naive implementation
+- tracing an API/data contract across frontend and backend
 - handling dependent async UI state in the frontend
 - keeping validation rules consistent across frontend and backend
 - making good scope tradeoffs under a timebox
@@ -22,6 +25,7 @@ The challenge centers on the incident creation flow in the Angular app and ASP.N
 | `src/OperationsHub.Api.Tests` | Backend unit tests                                                  |
 | `web`                         | Angular app for the incident creation flow                          |
 | `candidate`                   | Candidate-facing challenge brief                                    |
+| `internal`                    | Internal plan and reviewer notes                                    |
 
 ## Requirements
 
@@ -104,6 +108,7 @@ npm run start:container
 ## Challenge files
 
 - Candidate brief: `candidate/mid-level-fullstack.md`
+- Internal plan: `internal/challenge-redesign-plan.md`
 - Internal review notes: `internal/mid-level-fullstack-review.md`
 
 ## Sharing with candidates
@@ -118,5 +123,6 @@ When using this repo for a real assessment:
 
 - The codebase is intentionally small.
 - The task is intentionally scoped to be solvable in roughly **60 minutes**.
-- Tests are nice to have, not mandatory; strong candidates may add a focused test or leave a short note describing how they would use or extend the existing harness.
+- The scaffold is intentionally functional but not solid; some anti-patterns are left in place on purpose.
+- Tests are nice to have, not mandatory; strong candidates may add one focused test or leave a short note describing what they would test first.
 - The goal is not production completeness; it is to surface engineering judgement.
