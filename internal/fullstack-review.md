@@ -1,4 +1,4 @@
-# Mid-Level Full-Stack Review Notes
+# Full-Stack Review Notes
 
 ## What this challenge is testing
 

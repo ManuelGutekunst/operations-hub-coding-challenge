@@ -1,6 +1,6 @@
 # Operations Hub Full-Stack Challenge
 
-This repository targets a single **mid-level full-stack (.NET + Angular)** coding challenge. It stays intentionally small so candidates can understand the codebase quickly, then spend most of their time improving an existing implementation instead of building a feature from scratch.
+This repository targets a single **full-stack (.NET + Angular)** coding challenge. It stays intentionally small so candidates can understand the codebase quickly, then spend most of their time improving an existing implementation instead of building a feature from scratch.
 
 ## What this repo is for
 
@@ -107,16 +107,16 @@ npm run start:container
 
 ## Challenge files
 
-- Candidate brief: `candidate/mid-level-fullstack.md`
+- Candidate brief: `candidate/fullstack.md`
 - Internal plan: `internal/challenge-redesign-plan.md`
-- Internal review notes: `internal/mid-level-fullstack-review.md`
+- Internal review notes: `internal/fullstack-review.md`
 
 ## Sharing with candidates
 
 When using this repo for a real assessment:
 
 1. Copy the repository or create a dedicated branch.
-2. Share `candidate/mid-level-fullstack.md`.
+2. Share `candidate/fullstack.md`.
 3. Remove the `internal/` directory before handing it to the candidate.
 
 ## Notes

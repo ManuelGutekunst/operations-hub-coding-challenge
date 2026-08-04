@@ -1,4 +1,4 @@
-# Mid-Level Full-Stack Challenge
+# Full-Stack Challenge
 
 ## Context
 
