@@ -10,7 +10,7 @@ The seeded flow should already:
 - load asset-specific component options
 - show a dependent component dropdown
 - create incidents through the existing API
-- enforce only part of the date validation rules
+- apply partial validation in the Angular form; the API endpoint has no request validation
 
 ## Intentional weak spots in the scaffold
 
@@ -100,19 +100,26 @@ A smaller imperative freshness guard is also acceptable, but `switchMap` is the 
 
 ### 2. Validation gap
 
-The full business rule is:
+The API deliberately has no request validation. The Angular form has required-field validation and these partial date rules:
 
-- `plannedEndAt` must not be earlier than `startsAt`
-- if `endsAt` is set, `plannedEndAt` must not be later than `endsAt`
+- `endsAt`, when set, is not earlier than `startsAt`
+- `plannedEndAt`, when set, is not earlier than `startsAt`
 
-The scaffold only implements this partially. Candidates should make frontend and backend behavior consistent.
+Candidates must implement the following rules in both layers:
+
+- asset code, title, description, severity, and start time are required
+- the asset exists and severity is `Low`, `Medium`, or `High`
+- `endsAt >= startsAt`
+- `plannedEndAt >= startsAt`
+- `plannedEndAt <= endsAt` when both values are set
+
+Validation must be extracted into reusable, independently testable units rather than left only in the page component or controller. Focused automated tests should cover every invalid rule and date equality boundaries.
 
 ### 3. Intentional anti-patterns
 
 These are left in place on purpose and should not automatically count against the candidate:
 
 - controllers use the data store directly
-- validation lives inline in controllers
 - the Angular page component owns most orchestration
 - the implementation is basic and not heavily abstracted
 
@@ -122,9 +129,9 @@ Do not expect a full architectural rewrite.
 
 - fix the stale async state issue without rewriting the entire form
 - keep the component selection valid when the asset changes
-- complete the missing validation rule in both layers
-- preserve or slightly improve loading, empty, and error messaging
-- add one focused test or leave clear testing notes
+- complete every incident validation rule in both layers through reusable validation
+- preserve or slightly improve loading, empty, error, and validation messaging
+- add focused automated validation tests
 - explain tradeoffs or next steps briefly
 
 ## What strong judgment looks like
@@ -154,7 +161,7 @@ Do not expect a full architectural rewrite.
 
 - Did they fix the stale component-loading behavior?
 - Did they keep the selected component aligned with the latest asset options?
-- Did they implement the full `plannedEndAt` rule correctly?
+- Did they implement every incident validation rule consistently?
 
 ### 3. Improvement quality
 
@@ -168,7 +175,7 @@ Do not expect a full architectural rewrite.
 
 ### 5. Testing
 
-- Did they add one focused test, or leave credible test notes?
+- Is validation reusable and covered by focused automated tests for all rules?
 
 ## Interview prompts
 

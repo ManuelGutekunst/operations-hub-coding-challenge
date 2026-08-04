@@ -19,7 +19,7 @@ Candidates receive a scaffold that already includes:
 
 - the asset-specific component endpoint in the API
 - the dependent component dropdown in Angular
-- partial date validation for the incident form
+- partial client-side validation in the Angular form, with no request validation in the API
 
 The scaffold remains intentionally basic and keeps the current broad patterns in place.
 
@@ -32,13 +32,13 @@ The Angular asset/component flow uses naive request handling. If the selected as
 ### Intentional anti-patterns
 
 - controller logic remains close to the data store
-- validation remains inline in controllers and the page component
+- the Angular form's existing validation remains inline in the page component
 - Angular orchestration remains in a single page component
 - the implementation favors a basic first-pass style over a polished architecture
 
 ### Intentional validation gap
 
-`plannedEndAt` validation is only partially implemented. Candidates should finish it consistently in frontend and backend.
+The API deliberately has no request validation. The Angular form has required-field and partial date validation. Candidates must implement all incident business rules in both layers through reusable, independently testable validation units: required asset code, title, description, severity, and start time; an existing asset; a supported severity; `endsAt >= startsAt`; `plannedEndAt >= startsAt`; and `plannedEndAt <= endsAt` when both values are set.
 
 ## Candidate expectations
 
@@ -47,9 +47,10 @@ Ask candidates to:
 1. review the current implementation
 2. fix the critical asset/component correctness issue
 3. keep the selected component valid for the chosen asset
-4. complete the `plannedEndAt` business rules end to end
-5. make one or two focused improvements
-6. optionally add one focused test or leave testing notes
+4. implement every incident validation business rule end to end
+5. make the validation reusable and independently testable
+6. add focused tests for the validation
+7. make one or two focused improvements
 
 ## Success criteria
 
@@ -57,6 +58,7 @@ A strong solution should show:
 
 - correct diagnosis of the seeded bug
 - focused changes on the critical path
-- validation parity between frontend and backend
+- reusable, tested validation parity between frontend and backend
+- clear separation between validation, UI, and HTTP transport
 - clear but proportionate user feedback
 - restraint around architecture and refactoring

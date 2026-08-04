@@ -124,5 +124,5 @@ When using this repo for a real assessment:
 - The codebase is intentionally small.
 - The task is intentionally scoped to be solvable in roughly **60 minutes**.
 - The scaffold is intentionally functional but not solid; some anti-patterns are left in place on purpose.
-- Tests are nice to have, not mandatory; strong candidates may add one focused test or leave a short note describing what they would test first.
+- Incident validation must be reusable, independently testable, and covered by focused automated tests; other tests are optional.
 - The goal is not production completeness; it is to surface engineering judgement.

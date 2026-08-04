@@ -6,7 +6,7 @@ The application already supports creating incidents in the Angular UI and the .N
 
 A first pass of the asset-specific component flow is already scaffolded in both layers. It works partially, but the implementation is intentionally basic and contains at least one correctness issue.
 
-The date validation is also only partially implemented.
+The Angular form has partial validation. The API endpoint deliberately performs no request validation.
 
 ## Task
 
@@ -25,17 +25,20 @@ That should include:
 - ensuring the selected component is still valid after the asset changes
 - improving the loading, empty, and error handling only as much as needed to make the flow understandable
 
-### 2. Complete the end-to-end validation for `plannedEndAt`
+### 2. Implement reusable incident validation
 
-The full business rule is:
+The Angular form applies some validation, but the API endpoint deliberately applies none. Implement the incident business rules in both layers. The API must not rely on the UI for validation.
 
-- `plannedEndAt` must not be earlier than `startsAt`
-- if `endsAt` is set, `plannedEndAt` must not be later than `endsAt`
+#### Business rules
 
-Review the existing implementation and complete that validation in:
+- `assetCode`, `title`, `description`, `severity`, and `startsAt` are required.
+- `assetCode` must identify an existing asset.
+- `severity` must be `Low`, `Medium`, or `High`.
+- `endsAt`, when set, must not be earlier than `startsAt`.
+- `plannedEndAt`, when set, must not be earlier than `startsAt`.
+- When both are set, `plannedEndAt` must not be later than `endsAt`.
 
-1. the Angular form, with visible feedback
-2. the API, so invalid requests are still rejected server-side
+Show understandable validation feedback in the Angular form and reject invalid API requests server-side. Keep the validation reusable and independently testable; do not leave the rules embedded only in a page component or controller.
 
 ### 3. Make one or two focused improvements
 
@@ -45,26 +48,24 @@ Examples could include:
 
 - tightening duplicated or unclear logic
 - improving naming or state handling
-- adding one focused test
+- adding an additional focused test
 - leaving short notes about what you would improve next
 
-## Requirements
+## Functional constraints
 
-Update the API and Angular form so that:
-
-1. the component options flow keeps working on initial page load and after asset changes
-2. stale or invalid component state is not left behind
-3. the UI shows understandable loading, empty, and error states
-4. `plannedEndAt` validation is enforced in both frontend and backend
-5. the existing incident creation flow keeps working
-
-## Scope
-
+- The component-options flow works on initial page load and after asset changes; stale or invalid component state is not left behind.
+- The UI communicates loading, empty, error, and validation states clearly.
+- The Angular form and API enforce every incident business rule above.
+- Invalid API requests receive a client-error response; valid incident creation continues to work.
 - Do **not** add the component value to `POST /api/incidents`.
-- Do **not** add persistence, authentication, or unrelated UI changes.
-- Do **not** rewrite the architecture.
-- Keep the existing broad patterns in place unless a small improvement is clearly justified.
-- Favor focused fixes and targeted improvements over big refactors.
+
+## Non-functional constraints
+
+- Keep validation in reusable units that can be tested without exercising a page component or HTTP controller.
+- Add focused automated tests covering every invalid business rule and valid equality boundaries for the date rules.
+- Do **not** add persistence, authentication, dependencies, or unrelated UI changes.
+- Do **not** rewrite the architecture. Keep the existing broad patterns unless a small change is clearly justified.
+- Favor focused, readable fixes over big refactors.
 
 ## What we care about
 
@@ -72,22 +73,17 @@ Update the API and Angular form so that:
 - diagnosing an intentionally weak implementation
 - fixing the critical path before polishing secondary concerns
 - managing dependent async UI state
-- consistent validation across frontend and backend
+- consistent, reusable validation across frontend and backend
+- separating business rules from transport and UI code
 - making focused changes without unnecessary rewrites
 - clear user feedback
 - pragmatic test thinking and engineering judgment
 
 ## Testing
 
-Tests are a **nice to have**, not a hard requirement for finishing the challenge.
+Add focused automated tests for the reusable validation. Cover every invalid business rule and valid equality boundaries for the date rules.
 
-If you have time, add **one focused test** in the existing backend or Angular test setup.
-
-If you do not add a test, leave short notes describing:
-
-- what you would test first
-- which existing test harness you would extend
-- any gaps in the current test setup you would address next
+Additional tests are optional. If you do not add them, leave short notes describing what you would test next and which existing test harness you would extend.
 
 ## Timebox
 

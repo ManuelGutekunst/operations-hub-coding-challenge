@@ -4,7 +4,6 @@ using OperationsHub.Api.Infrastructure;
 
 namespace OperationsHub.Api.Features.Incidents;
 
-[ApiController]
 [Route("api/incidents")]
 public sealed class IncidentsController(InMemoryOperationsDataStore dataStore) : ControllerBase
 {
@@ -17,24 +16,6 @@ public sealed class IncidentsController(InMemoryOperationsDataStore dataStore) :
     [HttpPost]
     public IActionResult CreateIncident([FromBody] CreateIncidentRequest request)
     {
-        if (string.IsNullOrWhiteSpace(request.AssetCode) ||
-            string.IsNullOrWhiteSpace(request.Title) ||
-            string.IsNullOrWhiteSpace(request.Description) ||
-            string.IsNullOrWhiteSpace(request.Severity))
-        {
-            return BadRequest(new { message = "Asset code, title, description and severity are required." });
-        }
-
-        if (!dataStore.Assets.Any(asset => asset.AssetCode.Equals(request.AssetCode, StringComparison.OrdinalIgnoreCase)))
-        {
-            return BadRequest(new { message = $"Unknown asset '{request.AssetCode}'." });
-        }
-
-        if (request.EndsAt is not null && request.EndsAt < request.StartsAt)
-        {
-            return BadRequest(new { message = "endsAt must not be earlier than startsAt." });
-        }
-
         var incident = new Incident
         {
             AssetCode = request.AssetCode,
