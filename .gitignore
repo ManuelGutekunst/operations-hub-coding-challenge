@@ -6,3 +6,5 @@ web/dist/
 .devcontainer/devcontainer-lock.json
 .DS_Store
 .idea/
+# Local-only challenge authoring notes
+internal/

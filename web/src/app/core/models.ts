@@ -5,6 +5,11 @@ export interface AssetSummary {
   status: string;
 }
 
+export interface AssetComponentOption {
+  value: string;
+  label: string;
+}
+
 export interface CreateIncidentRequest {
   assetCode: string;
   title: string;
